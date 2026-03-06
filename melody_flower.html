@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spider Lily for Melody</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: radial-gradient(circle at top, #1b1b1b, #000);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: 'Georgia', serif;
+    position: relative;
+  }
+
+  /* Tap to start overlay */
+  #startScreen {
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:black;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    font-size:24px;
+    text-align:center;
+    z-index:10;
+  }
+
+  .flower {
+    position: relative;
+    width: 0;
+    height: 0;
+  }
+
+  /* Glow behind flower */
+  .glow {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255,255,255,0.3), transparent 70%);
+    border-radius: 50%;
+    top: -200px;
+    left: -200px;
+    animation: pulse 4s infinite;
+    z-index: 1;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.2; }
+    50% { transform: scale(1.5); opacity: 0.5; }
+  }
+
+  /* Flower petals */
+  .petal {
+    position: absolute;
+    width: 12px;
+    height: 0;
+    background: linear-gradient(180deg, #fff0f5, #ff69b4);
+    border-radius: 50% 50% 0 0;
+    transform-origin: bottom center;
+    opacity: 0;
+    animation: bloom 3s forwards;
+    z-index:2;
+  }
+
+  @keyframes bloom {
+    0% { height: 0; opacity: 0; }
+    50% { height: 150px; opacity: 1; }
+    100% { height: 160px; opacity: 1; }
+  }
+
+  /* Falling petals */
+  .falling-petal {
+    position: absolute;
+    width: 8px;
+    height: 80px;
+    background: linear-gradient(180deg, #fff0f5, #ff69b4);
+    border-radius: 50% 50% 0 0;
+    opacity: 0.8;
+    top: -100px;
+    z-index:1;
+    animation: fall 6s linear infinite;
+  }
+
+  @keyframes fall {
+    0% { transform: translateX(0) rotate(0deg); opacity:1; }
+    50% { transform: translateX(50px) rotate(45deg); }
+    100% { transform: translateX(-50px) translateY(700px) rotate(90deg); opacity:0; }
+  }
+
+  /* Quotes */
+  .quote {
+    position: absolute;
+    width: 80%;
+    text-align: center;
+    top: 10%;
+    left: 10%;
+    font-size: 24px;
+    color: #fff;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    z-index:3;
+  }
+
+</style>
+</head>
+<body>
+
+<div id="startScreen">🌸 Tap to start the Spider Lily for Melody 🌸</div>
+
+<audio id="bgMusic" loop>
+  <source src="soft_music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="flower" id="flower">
+  <div class="glow"></div>
+  <!-- 12 petals -->
+  <div class="petal" style="--angle:0deg;"></div>
+  <div class="petal" style="--angle:30deg;"></div>
+  <div class="petal" style="--angle:60deg;"></div>
+  <div class="petal" style="--angle:90deg;"></div>
+  <div class="petal" style="--angle:120deg;"></div>
+  <div class="petal" style="--angle:150deg;"></div>
+  <div class="petal" style="--angle:180deg;"></div>
+  <div class="petal" style="--angle:210deg;"></div>
+  <div class="petal" style="--angle:240deg;"></div>
+  <div class="petal" style="--angle:270deg;"></div>
+  <div class="petal" style="--angle:300deg;"></div>
+  <div class="petal" style="--angle:330deg;"></div>
+</div>
+
+<!-- Falling petals container -->
+<div id="fallingContainer"></div>
+
+<!-- Quotes -->
+<div class="quote" id="quote1">"Two people can both be pouring… and still feel thirsty."</div>
+<div class="quote" id="quote2">"Even the tiniest bloom can light up the darkest night."</div>
+<div class="quote" id="quote3">"Some hearts speak without words."</div>
+
+<script>
+  const startScreen = document.getElementById('startScreen');
+  const music = document.getElementById('bgMusic');
+
+  startScreen.addEventListener('click', ()=>{
+    music.play();
+    startScreen.style.display = 'none';
+  });
+
+  // Petal sway
+  const petals = document.querySelectorAll('.petal');
+  petals.forEach((petal, i) => {
+    let baseAngle = parseInt(petal.style.getPropertyValue('--angle'));
+    function sway(){
+      const swayAngle = baseAngle + Math.sin(Date.now()/500 + i) * 15;
+      petal.style.transform = `rotate(${swayAngle}deg)`;
+      requestAnimationFrame(sway);
+    }
+    sway();
+  });
+
+  // Falling petals
+  const container = document.getElementById('fallingContainer');
+  for(let i=0;i<25;i++){
+    const p = document.createElement('div');
+    p.classList.add('falling-petal');
+    p.style.left = Math.random()*window.innerWidth + 'px';
+    p.style.animationDelay = (Math.random()*6)+'s';
+    container.appendChild(p);
+  }
+
+  // Quotes cycling
+  const quotes = document.querySelectorAll('.quote');
+  let current = 0;
+  function showQuote(){
+    quotes.forEach((q,i)=>q.style.opacity = i===current?1:0);
+    current = (current+1)%quotes.length;
+  }
+  setInterval(showQuote, 4000);
+  showQuote();
+
+</script>
+</body>
+</html>

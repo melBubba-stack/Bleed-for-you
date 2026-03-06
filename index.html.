@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Melody's Flower Web</title>
+  <style>
+    body {
+      background-color: #fffbe6;
+      font-family: "Arial", sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      color: #ff69b4;
+      margin-bottom: 40px;
+      font-size: 36px;
+    }
+    .flower {
+      display: inline-block;
+      background: #ffe4e1;
+      padding: 15px 25px;
+      margin: 20px;
+      border-radius: 50%;
+      font-size: 18px;
+      color: #800080;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+      max-width: 250px;
+    }
+    .web-line {
+      height: 4px;
+      background: #ff69b4;
+      width: 60%;
+      margin: 10px auto;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Melody's Flower Web 🌸</h1>
+
+  <div class="flower">🌸 A little garden of thoughts</div>
+  <div class="web-line"></div>
+  <div class="flower">🌼 And petals just for you</div>
+  <div class="web-line"></div>
+  <div class="flower">🌷 Each line a bloom from my heart</div>
+  <div class="web-line"></div>
+  <div class="flower">💐 Every word meant to reach you</div>
+  <div class="web-line"></div>
+  <div class="flower">🌺 Hope it brings a smile today</div>
+
+</body>
+</html>

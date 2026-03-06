@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Melody ❤️</title>
+<style>
+  body {
+    margin:0; padding:0;
+    height:100vh; width:100vw;
+    overflow:hidden;
+    display:flex; justify-content:center; align-items:center;
+    background: radial-gradient(circle at top, #fdeff9, #ec38bc);
+    font-family:'Georgia', serif;
+    position:relative;
+    color:white;
+  }
+
+  #startScreen {
+    position:absolute;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:black;
+    color:white;
+    display:flex; justify-content:center; align-items:center;
+    cursor:pointer;
+    font-size:28px; text-align:center;
+    z-index:20;
+  }
+
+  /* Flower */
+  #flowerContainer {
+    position:relative;
+    width:300px; height:300px;
+    z-index:5;
+  }
+
+  #flowerContainer img, #flowerContainer video {
+    width:100%; height:100%;
+    object-fit:contain;
+    border-radius:10px;
+  }
+
+  /* Glow behind flower */
+  .glow {
+    position:absolute;
+    width:400px; height:400px;
+    top:-50px; left:-50px;
+    background: radial-gradient(circle, rgba(255,255,255,0.2), transparent 70%);
+    border-radius:50%;
+    animation: pulse 5s infinite;
+    z-index:0;
+  }
+
+  @keyframes pulse {
+    0%,100% { transform: scale(1); opacity:0.2; }
+    50% { transform: scale(1.5); opacity:0.5; }
+  }
+
+  /* Floating sparkles */
+  .sparkle {
+    position:absolute;
+    width:8px; height:8px;
+    background: rgba(255,255,255,0.8);
+    border-radius:50%;
+    box-shadow:0 0 8px 3px rgba(255,255,255,0.6);
+    animation: drift 8s linear infinite;
+  }
+
+  @keyframes drift {
+    0% {transform: translate(0,0);}
+    50% {transform: translate(20px,-30px);}
+    100% {transform: translate(-20px,30px);}
+  }
+
+  /* Quotes */
+  .quote {
+    position:absolute;
+    width:80%; text-align:center;
+    top:10%; left:10%;
+    font-size:24px; color:white;
+    opacity:0; transition:opacity 3s ease-in-out;
+    text-shadow:0 0 12px rgba(0,0,0,0.3); z-index:10;
+  }
+
+  /* Final love */
+  .final-love {
+    position:absolute;
+    width:80%; text-align:center;
+    top:50%; left:10%;
+    font-size:32px; font-weight:bold;
+    color:#ff69b4; opacity:0;
+    text-shadow:0 0 20px rgba(255,105,180,0.6);
+    transition:opacity 4s ease-in-out;
+    z-index:15;
+    animation: pulseLove 2s infinite alternate;
+  }
+
+  @keyframes pulseLove {
+    from {text-shadow:0 0 10px rgba(255,105,180,0.5);}
+    to {text-shadow:0 0 25px rgba(255,105,180,0.8);}
+  }
+
+</style>
+</head>
+<body>
+
+<div id="startScreen">🌸 Tap to start for Melody 🌸</div>
+
+<audio id="bgMusic" loop>
+  <source src="soft_music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="glow"></div>
+
+<!-- Flower -->
+<div id="flowerContainer">
+  <img src="flower.jpg" alt="Flower">
+  <!-- or <video src="flower.mp4" autoplay muted loop></video> -->
+</div>
+
+<!-- Sparkles -->
+<div id="sparklesContainer"></div>
+
+<!-- Quotes -->
+<div class="quote" id="quote1">"Every moment with you feels like magic."</div>
+<div class="quote" id="quote2">"Even the tiniest bloom can light the darkest night."</div>
+<div class="quote" id="quote3">"My heart speaks your name in every beat."</div>
+
+<!-- Final love -->
+<div class="final-love" id="finalLove">Melody… I love you.</div>
+
+<script>
+  const startScreen = document.getElementById('startScreen');
+  const music = document.getElementById('bgMusic');
+
+  startScreen.addEventListener('click', ()=>{
+    music.play();
+    startScreen.style.display='none';
+  });
+
+  // Sparkles
+  const sparklesContainer = document.getElementById('sparklesContainer');
+  for(let i=0;i<25;i++){
+    const s=document.createElement('div');
+    s.classList.add('sparkle');
+    s.style.left=Math.random()*window.innerWidth+'px';
+    s.style.top=Math.random()*window.innerHeight+'px';
+    s.style.animationDuration=(5+Math.random()*5)+'s';
+    sparklesContainer.appendChild(s);
+  }
+
+  // Quotes
+  const quotes=document.querySelectorAll('.quote');
+  let current=0;
+  function showQuote(){
+    if(current<quotes.length){
+      quotes.forEach((q,i)=>q.style.opacity=i===current?1:0);
+      current++;
+    } else {
+      document.getElementById('finalLove').style.opacity=1;
+    }
+  }
+  setInterval(showQuote,9000);
+  showQuote();
+</script>
+</body>
+</html>
